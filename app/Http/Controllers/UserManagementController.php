@@ -13,6 +13,9 @@ class UserManagementController extends Controller
 {
     public function index()
     {
+        if (Auth::user()->hasRole() !== 'Admin') {
+            abort(403, 'Unauthorized action.');
+        }
         $users = User::with('roles')->latest()->simplePaginate(5); //Pagination task
         return view('admin.users', ['users' => $users]);
     }

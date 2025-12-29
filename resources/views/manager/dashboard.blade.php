@@ -196,11 +196,6 @@
                         </div>
                     @endforeach
                 </div>
-
-                <div class="mt-4">
-                    <a href="/admin/users" class="text-blue-600 hover:text-blue-700 text-sm font-medium">View All
-                        Members</a>
-                </div>
             </div>
         </div>
     </div>
