@@ -34,4 +34,34 @@ class AdminController extends Controller
             'recentUsers' => $recentUsers,
         ]);
     }
+
+    public function search()
+    {
+        $user = Auth::user();
+        if ($user->hasRole() !== 'Admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        request()->validate([
+            'search' => 'required|string|max:255',
+        ]);
+
+        $query = request('search');
+
+        $workspaces = Workspace::where('name', 'like', "%{$query}%")
+            ->orWhere('description', 'like', "%{$query}%")
+            ->with('creator')
+            ->get();
+
+        $users = User::where('name', 'like', "%{$query}%")
+            ->orWhere('email', 'like', "%{$query}%")
+            ->get();
+
+
+        return view('admin.search', [
+            'workspaces' => $workspaces,
+            'employees' => $users,
+            'query' => $query,
+        ]);
+    }
 }

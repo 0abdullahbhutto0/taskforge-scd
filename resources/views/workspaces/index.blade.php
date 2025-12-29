@@ -52,6 +52,7 @@
                 </div>
                 @endforeach
             </div>
+            {{ $workspaces->links() }} <!-- Pagination task -->
 
             @if($workspaces->isEmpty())
                 <div class="bg-white rounded-lg shadow-sm p-12 text-center">

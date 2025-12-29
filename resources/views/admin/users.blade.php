@@ -90,6 +90,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $users->links() }} <!-- Pagination task -->
                 </div>
             </div>
         </div>

@@ -46,6 +46,7 @@
                 </div>
                 @endforeach
             </div>
+            {{ $announcements->links() }} <!-- Pagination task -->
 
             @if($announcements->isEmpty())
                 <div class="bg-white rounded-lg shadow-sm p-12 text-center">

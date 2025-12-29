@@ -16,13 +16,14 @@ class WorkspaceController extends Controller
         $role = $user->hasRole();
         
         if ($role === 'Admin') {
-            $workspaces = Workspace::with(['creator', 'users', 'tasks'])->get();
+            $workspaces = Workspace::with(['creator', 'users', 'tasks'])->latest()->simplePaginate(3); //Pagination task
         } elseif ($role === 'Manager') {
             $workspaces = Workspace::where('created_by', $user->id)
                 ->with(['creator', 'users', 'tasks'])
-                ->get();
+                ->latest()
+                ->simplePaginate(3); //Pagination task
         } else {
-            $workspaces = $user->workspaces()->with(['creator', 'users', 'tasks'])->get();
+            $workspaces = $user->workspaces()->with(['creator', 'users', 'tasks'])->latest()->simplePaginate(3); //Pagination task
         }
         
         return view('workspaces.index', ['workspaces' => $workspaces]);
@@ -66,4 +67,5 @@ class WorkspaceController extends Controller
         $workspace = Workspace::with(['creator', 'users', 'tasks.assignedTo', 'tasks.creator'])->findOrFail($id);
         return view('workspaces.show', ['workspace' => $workspace]);
     }
+
 }

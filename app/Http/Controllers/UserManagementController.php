@@ -13,7 +13,7 @@ class UserManagementController extends Controller
 {
     public function index()
     {
-        $users = User::with('roles')->get();
+        $users = User::with('roles')->latest()->simplePaginate(5); //Pagination task
         return view('admin.users', ['users' => $users]);
     }
 
@@ -39,10 +39,8 @@ class UserManagementController extends Controller
         $user = User::findOrFail($id);
         $roleName = $request->input('role');
         
-        // Remove existing roles
         $user->roles()->detach();
         
-        // Assign new role
         $role = Role::where('name', $roleName)->first();
         if ($role) {
             $user->roles()->attach($role->id);
@@ -68,7 +66,6 @@ class UserManagementController extends Controller
             'status' => 'approved',
         ]);
 
-        // Assign manager-employee relationship if manager_id is provided
         ManagerEmployeeModel::create([
             'manager_id' => Auth::id(),
             'employee_id' => $user->id,

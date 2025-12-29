@@ -9,6 +9,15 @@
                         <p class="text-gray-600">Dashboard Overview</p>
                     </div>
                     <div class="flex items-center gap-4">
+                        <form action="/admin/search" method="POST" class="relative">
+                                @csrf
+                                <input type="text" name="search"
+                                    class="pl-3 pr-10 py-2 bg-white border text-black border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+                                    placeholder="Search...">
+                                <button type="submit" class="absolute right-2 top-2 text-gray-400 hover:text-gray-600">
+                                    Search
+                                </button>
+                            </form>
                         <a href="/admin/users" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700">
                             + Invite User
                         </a>

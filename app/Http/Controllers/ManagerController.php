@@ -49,4 +49,41 @@ class ManagerController extends Controller
             'tasksCompleted' => $tasksCompleted
         ]);
     }
+
+    public function search()
+    {
+        $user = Auth::user();
+        if ($user->hasRole() !== 'Manager') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        request()->validate([
+            'search' => ['required', 'string', 'max:25', 'min:3'],
+        ]);
+
+        $tasks = Task::where('created_by', $user->id)
+            ->where('title', 'like', '%' . request('search') . '%')
+            ->with(['workspace', 'assignedTo'])
+            ->latest()
+            ->get();
+
+        $workspaces = Workspace::where('created_by', $user->id)
+            ->where('name', 'like', '%' . request('search') . '%')
+            ->with(['users', 'tasks'])
+            ->latest()
+            ->get();
+
+        $employeeManager = ManagerEmployeeModel::where('manager_id', $user->id)->pluck('employee_id')->toArray();
+        $employees = User::whereIn('id', $employeeManager)
+            ->where('name', 'like', '%' . request('search') . '%')
+            ->latest()
+            ->get(); 
+
+        return view('manager.search', [
+            'tasks' => $tasks,
+            'workspaces' => $workspaces,
+            'employees' => $employees,
+            'query' => request('search'),
+        ]);
+    }
 }

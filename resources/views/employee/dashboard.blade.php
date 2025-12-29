@@ -9,7 +9,15 @@
                         <p class="text-gray-600">Here's what's on your plate for {{ now()->format('l, F jS') }}.</p>
                     </div>
                     <div class="flex items-center gap-4">
-                        <input type="text" placeholder="Search tasks, projects, or team members" class="bg-white border border-gray-300 text-gray-900 rounded-lg px-4 py-2 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600">
+                       <form action="/employee/search" method="POST" class="relative">
+                                @csrf
+                                <input type="text" name="search"
+                                    class="pl-3 pr-10 py-2 bg-white border text-black border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500"
+                                    placeholder="Search...">
+                                <button type="submit" class="absolute right-2 top-2 text-gray-400 hover:text-gray-600">
+                                    Search
+                                </button>
+                            </form>
                         <a href="/tasks" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700">
                             + Create New Task
                         </a>

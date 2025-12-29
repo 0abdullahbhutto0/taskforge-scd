@@ -10,7 +10,7 @@ class AnnouncementController extends Controller
 {
     public function index()
     {
-        $announcements = Announcement::with('creator')->latest()->get();
+        $announcements = Announcement::with('creator')->latest()->simplePaginate(3); //Pagination task
         return view('announcements.index', ['announcements' => $announcements]);
     }
 

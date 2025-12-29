@@ -78,6 +78,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $tasks->links() }} <!-- Pagination task -->
                 </div>
             </div>
 

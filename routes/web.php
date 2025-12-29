@@ -32,15 +32,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::post('/users/{id}/approve', [UserManagementController::class, 'approve']);
     Route::post('/users/{id}/reject', [UserManagementController::class, 'reject']);
     Route::post('/users/{id}/assign-role', [UserManagementController::class, 'assignRole']);
+    Route::post('/search', [AdminController::class, 'search']);
 });
-
-// Route::middleware(['auth', 'role:Admin'])->prefix('admin')->group(function () {
-//     Route::get('/dashboard', [AdminController::class, 'dashboard']);
-//     Route::get('/users', [UserManagementController::class, 'index']);
-//     Route::post('/users/{id}/approve', [UserManagementController::class, 'approve']);
-//     Route::post('/users/{id}/reject', [UserManagementController::class, 'reject']);
-//     Route::post('/users/{id}/assign-role', [UserManagementController::class, 'assignRole']);
-// });
 
 // Manager Routes
 Route::middleware('auth')->prefix('manager')->group(function () {
@@ -49,11 +42,13 @@ Route::middleware('auth')->prefix('manager')->group(function () {
         return view('manager.create-employee');
     });
     Route::post('/employees', [UserManagementController::class, 'createEmployee']);
+    Route::post('/search', [ManagerController::class, 'search']);
 });
 
 // Employee Routes
 Route::middleware('auth')->prefix('employee')->group(function () {
     Route::get('/dashboard', [EmployeeController::class, 'dashboard']);
+    Route::post('/search', [EmployeeController::class, 'search']);
 });
 
 // Workspace Routes

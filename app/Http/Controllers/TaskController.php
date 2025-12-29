@@ -20,15 +20,17 @@ class TaskController extends Controller
     
         
         if ($role === 'Admin') {
-            $tasks = Task::with(['workspace', 'assignedTo', 'creator'])->get();
+            $tasks = Task::with(['workspace', 'assignedTo', 'creator'])->latest()->simplePaginate(3); //Pagination task
         } elseif ($role === 'Manager') {
             $tasks = Task::where('created_by', $user->id)
                 ->with(['workspace', 'assignedTo', 'creator'])
-                ->get();
+                ->latest()
+                ->simplePaginate(3); //Pagination task
         } else {
             $tasks = Task::where('assigned_to', $user->id)
                 ->with(['workspace', 'assignedTo', 'creator'])
-                ->get();
+                ->latest()
+                ->simplePaginate(3); //Pagination task
         }
         
         return view('tasks.index', ['tasks' => $tasks]);
@@ -85,6 +87,9 @@ class TaskController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $task = Task::findOrFail($id);
+        if($task->assigned_to !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
         $task->status = $request->input('status');
         $task->save();
         
