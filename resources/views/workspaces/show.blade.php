@@ -29,14 +29,14 @@
                                         </div>
                                     </div>
                                     <div class="flex flex-col items-end gap-2">
-                                        @if($task->priority === 'critical' || $task->priority === 'high')
-                                            <span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-medium">{{ ucfirst($task->priority) }}</span>
-                                        @elseif($task->priority === 'medium')
-                                            <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-medium">{{ ucfirst($task->priority) }}</span>
+                                        @if($task->priority->value === 'critical' || $task->priority->value === 'high')
+                                            <span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-medium">{{ $task->priority->label() }}</span>
+                                        @elseif($task->priority->value === 'medium')
+                                            <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-medium">{{ $task->priority->label() }}</span>
                                         @else
-                                            <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">{{ ucfirst($task->priority) }}</span>
+                                            <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">{{ $task->priority->label() }}</span>
                                         @endif
-                                        <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-medium">{{ ucfirst(str_replace('_', ' ', $task->status)) }}</span>
+                                        <span class="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs font-medium">{{ $task->status->label() }}</span>
                                     </div>
                                 </div>
                             </a>

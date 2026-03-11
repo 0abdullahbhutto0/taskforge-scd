@@ -29,13 +29,45 @@
                     </svg>
                 </label>
                 <p class="text-blue-600 font-bold text-lg">TaskForge</p>
-                <div class="px-4">
+                <div class="px-4 flex items-center gap-4">
                     @auth
+                        <!-- Notifications Dropdown -->
+                        <div class="dropdown dropdown-end">
+                            <label tabindex="0" class="btn btn-ghost btn-circle">
+                                <div class="indicator">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                                    @if(auth()->user()->unreadNotifications->count() > 0)
+                                        <span class="badge badge-sm badge-primary indicator-item">{{ auth()->user()->unreadNotifications->count() }}</span>
+                                    @endif
+                                </div>
+                            </label>
+                            <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-80 bg-base-100 shadow">
+                                <div class="card-body p-0">
+                                    <h3 class="font-bold text-lg p-4 border-b">Notifications</h3>
+                                    <div class="max-h-96 overflow-y-auto">
+                                        @forelse(auth()->user()->unreadNotifications as $notification)
+                                            <div class="p-4 border-b hover:bg-gray-50 {{ $loop->last ? 'border-b-0' : '' }}">
+                                                <p class="font-medium text-sm text-gray-900">{{ $notification->data['title'] ?? 'Notification' }}</p>
+                                                <p class="text-xs text-gray-600 mt-1">{{ $notification->data['message'] ?? 'You have a new notification.' }}</p>
+                                                <p class="text-xs text-gray-400 mt-1">{{ $notification->created_at->diffForHumans() }}</p>
+                                                <form action="/notifications/{{ $notification->id }}/mark-as-read" method="POST" class="mt-2 text-right">
+                                                    @csrf
+                                                    <button type="submit" class="text-xs text-blue-600 hover:text-blue-800">Mark as read</button>
+                                                </form>
+                                            </div>
+                                        @empty
+                                            <div class="p-4 text-center text-gray-500 text-sm">No new notifications</div>
+                                        @endforelse
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div>
                             <form action="/logout" method="POST">
                                 @csrf
                                 <button href="/dashboard"
-                                    class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition">
+                                    class="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition lg:ml-2">
                                     Logout
                                 </button>
                             </form>

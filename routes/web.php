@@ -66,7 +66,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/tasks', [TaskController::class, 'store']);
     Route::get('/tasks/{id}', [TaskController::class, 'show']);
     Route::post('/tasks/{id}/status', [TaskController::class, 'updateStatus']);
-    Route::post('/tasks/{id}/comments', [TaskController::class, 'addComment']);
+    Route::post('/tasks/{id}/comments', [\App\Http\Controllers\TaskController::class, 'storeComment']);
+    Route::post('/tasks/{id}/attachments', [\App\Http\Controllers\TaskController::class, 'storeAttachment']);
+    
+    // Attachments
+    Route::get('/attachments/{attachment}/download', [\App\Http\Controllers\TaskAttachmentController::class, 'download']);
+    Route::delete('/attachments/{attachment}', [\App\Http\Controllers\TaskAttachmentController::class, 'destroy']);
 });
 
 // Announcement Routes
@@ -76,3 +81,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/announcements', [AnnouncementController::class, 'store']);
     Route::delete('/announcements/{id}', [AnnouncementController::class, 'destroy']);
 });
+
+// Notifications
+Route::post('/notifications/{id}/mark-as-read', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])->middleware('auth');

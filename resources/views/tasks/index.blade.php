@@ -19,6 +19,43 @@
                 </div>
             @endif
 
+            <div class="bg-white p-4 rounded-lg shadow-sm mb-6 flex gap-4">
+                <form action="/tasks" method="GET" class="w-full flex flex-col sm:flex-row gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                        <select name="status" class="border-gray-300 rounded-md shadow-sm text-sm border p-2">
+                            <option value="">All Statuses</option>
+                            <option value="todo" {{ request('status') === 'todo' ? 'selected' : '' }}>To Do</option>
+                            <option value="in_progress" {{ request('status') === 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                            <option value="review" {{ request('status') === 'review' ? 'selected' : '' }}>Review</option>
+                            <option value="completed" {{ request('status') === 'completed' ? 'selected' : '' }}>Completed</option>
+                            <option value="blocked" {{ request('status') === 'blocked' ? 'selected' : '' }}>Blocked</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                        <select name="priority" class="border-gray-300 rounded-md shadow-sm text-sm border p-2">
+                            <option value="">All Priorities</option>
+                            <option value="low" {{ request('priority') === 'low' ? 'selected' : '' }}>Low</option>
+                            <option value="medium" {{ request('priority') === 'medium' ? 'selected' : '' }}>Medium</option>
+                            <option value="high" {{ request('priority') === 'high' ? 'selected' : '' }}>High</option>
+                            <option value="critical" {{ request('priority') === 'critical' ? 'selected' : '' }}>Critical</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Sort By</label>
+                        <select name="sort" class="border-gray-300 rounded-md shadow-sm text-sm border p-2">
+                            <option value="latest" {{ request('sort') !== 'due_date' ? 'selected' : '' }}>Latest Created</option>
+                            <option value="due_date" {{ request('sort') === 'due_date' ? 'selected' : '' }}>Due Date</option>
+                        </select>
+                    </div>
+                    <div class="flex items-end gap-2">
+                        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded shadow text-sm font-medium hover:bg-blue-700">Apply Filters</button>
+                        <a href="/tasks" class="bg-gray-100 text-gray-700 border px-4 py-2 rounded shadow-sm text-sm font-medium hover:bg-gray-200">Clear</a>
+                    </div>
+                </form>
+            </div>
+
             <div class="bg-white rounded-lg shadow-sm overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full">
@@ -54,21 +91,21 @@
                                     <form action="/tasks/{{ $task->id }}/status" method="POST" class="inline">
                                         @csrf
                                         <select name="status" onchange="this.form.submit()" class="text-xs border rounded px-2 py-1 text-black">
-                                            <option value="todo" {{ $task->status === 'todo' ? 'selected' : '' }}>To Do</option>
-                                            <option value="in_progress" {{ $task->status === 'in_progress' ? 'selected' : '' }}>In Progress</option>
-                                            <option value="review" {{ $task->status === 'review' ? 'selected' : '' }}>Review</option>
-                                            <option value="completed" {{ $task->status === 'completed' ? 'selected' : '' }}>Completed</option>
-                                            <option value="blocked" {{ $task->status === 'blocked' ? 'selected' : '' }}>Blocked</option>
+                                            <option value="todo" {{ $task->status->value === 'todo' ? 'selected' : '' }}>To Do</option>
+                                            <option value="in_progress" {{ $task->status->value === 'in_progress' ? 'selected' : '' }}>In Progress</option>
+                                            <option value="review" {{ $task->status->value === 'review' ? 'selected' : '' }}>Review</option>
+                                            <option value="completed" {{ $task->status->value === 'completed' ? 'selected' : '' }}>Completed</option>
+                                            <option value="blocked" {{ $task->status->value === 'blocked' ? 'selected' : '' }}>Blocked</option>
                                         </select>
                                     </form>
                                 </td>
                                 <td class="py-3 px-4">
-                                    @if($task->priority === 'critical' || $task->priority === 'high')
-                                        <span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-medium">{{ ucfirst($task->priority) }}</span>
-                                    @elseif($task->priority === 'medium')
-                                        <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-medium">{{ ucfirst($task->priority) }}</span>
+                                    @if ($task->priority->value === 'critical' || $task->priority->value === 'high')
+                                        <span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-medium">{{ $task->priority->label() }}</span>
+                                    @elseif($task->priority->value === 'medium')
+                                        <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-medium">{{ $task->priority->label() }}</span>
                                     @else
-                                        <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">{{ ucfirst($task->priority) }}</span>
+                                        <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">{{ $task->priority->label() }}</span>
                                     @endif
                                 </td>
                                 <td class="py-3 px-4 text-sm text-gray-600">

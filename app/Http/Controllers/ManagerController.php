@@ -19,8 +19,8 @@ class ManagerController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        $tasksDueToday = Task::where('assigned_to', $user->id)
-            ->whereDate('due_date', today())
+        $tasksDueToday = Task::whereDate('due_date', today())
+            ->where('created_by', $user->id)
             ->count();
 
         $activeProjects = Workspace::where('created_by', $user->id)->count();

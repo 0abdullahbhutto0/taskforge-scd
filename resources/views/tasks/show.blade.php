@@ -34,18 +34,18 @@
                                             @csrf
                                             <select name="status" onchange="this.form.submit()"
                                                 class="text-sm border rounded px-3 py-2 w-full text-black">
-                                                <option value="todo" {{ $task->status === 'todo' ? 'selected' : '' }}>
+                                                <option value="todo" {{ $task->status->value === 'todo' ? 'selected' : '' }}>
                                                     To Do</option>
                                                 <option value="in_progress"
-                                                    {{ $task->status === 'in_progress' ? 'selected' : '' }}>In Progress
+                                                    {{ $task->status->value === 'in_progress' ? 'selected' : '' }}>In Progress
                                                 </option>
                                                 <option value="review"
-                                                    {{ $task->status === 'review' ? 'selected' : '' }}>Review</option>
+                                                    {{ $task->status->value === 'review' ? 'selected' : '' }}>Review</option>
                                                 <option value="completed"
-                                                    {{ $task->status === 'completed' ? 'selected' : '' }}>Completed
+                                                    {{ $task->status->value === 'completed' ? 'selected' : '' }}>Completed
                                                 </option>
                                                 <option value="blocked"
-                                                    {{ $task->status === 'blocked' ? 'selected' : '' }}>Blocked</option>
+                                                    {{ $task->status->value === 'blocked' ? 'selected' : '' }}>Blocked</option>
                                             </select>
                                         </form>
                                     </div>
@@ -53,15 +53,15 @@
                                 <div>
                                     <label class="text-sm font-medium text-gray-700">Priority</label>
                                     <div class="mt-1">
-                                        @if ($task->priority === 'critical' || $task->priority === 'high')
+                                        @if ($task->priority->value === 'critical' || $task->priority->value === 'high')
                                             <span
-                                                class="bg-red-100 text-red-700 px-3 py-2 rounded text-sm font-medium inline-block">{{ ucfirst($task->priority) }}</span>
-                                        @elseif($task->priority === 'medium')
+                                                class="bg-red-100 text-red-700 px-3 py-2 rounded text-sm font-medium inline-block">{{ $task->priority->label() }}</span>
+                                        @elseif($task->priority->value === 'medium')
                                             <span
-                                                class="bg-orange-100 text-orange-700 px-3 py-2 rounded text-sm font-medium inline-block">{{ ucfirst($task->priority) }}</span>
+                                                class="bg-orange-100 text-orange-700 px-3 py-2 rounded text-sm font-medium inline-block">{{ $task->priority->label() }}</span>
                                         @else
                                             <span
-                                                class="bg-green-100 text-green-700 px-3 py-2 rounded text-sm font-medium inline-block">{{ ucfirst($task->priority) }}</span>
+                                                class="bg-green-100 text-green-700 px-3 py-2 rounded text-sm font-medium inline-block">{{ $task->priority->label() }}</span>
                                         @endif
                                     </div>
                                 </div>
@@ -157,6 +157,103 @@
                                 <span class="text-gray-600">Comments:</span>
                                 <span class="text-gray-900 font-medium ml-2">{{ $task->comments->count() }}</span>
                             </div>
+                        </div>
+                    </div>
+
+                    <!-- Attachments -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 mt-6">
+                        <h3 class="font-bold text-gray-900 mb-4">Attachments 
+                            <span class="text-xs font-normal text-gray-500 bg-gray-100 px-2 py-1 rounded ml-2">{{ $task->attachments->count() }} Files</span>
+                        </h3>
+                        
+                        <!-- Upload Form -->
+                        <form action="/tasks/{{ $task->id }}/attachments" method="POST" enctype="multipart/form-data" class="mb-4">
+                            @csrf
+                            <div class="flex items-center gap-2">
+                                <input type="file" name="attachment" required
+                                    class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100" />
+                                <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded text-sm font-medium hover:bg-blue-700 shrink-0">
+                                    Upload
+                                </button>
+                            </div>
+                            @error('attachment')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </form>
+
+                        <div class="space-y-3">
+                            @forelse ($task->attachments as $attachment)
+                                <div class="flex items-center justify-between p-3 border border-gray-200 rounded-lg hover:bg-gray-50 group">
+                                    <div class="flex items-center gap-3 overflow-hidden">
+                                        <div class="w-8 h-8 bg-blue-100 rounded flex items-center justify-center text-blue-600 shrink-0">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                                            </svg>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="text-sm font-medium text-gray-900 truncate" title="{{ $attachment->filename }}">
+                                                {{ $attachment->filename }}
+                                            </p>
+                                            <p class="text-xs text-gray-500">
+                                                By {{ $attachment->user->name ?? 'Unknown' }} • {{ $attachment->created_at->format('M d, Y') }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <a href="/attachments/{{ $attachment->id }}/download" class="text-gray-500 hover:text-blue-600 p-1" title="Download">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                            </svg>
+                                        </a>
+                                        <form action="/attachments/{{ $attachment->id }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-gray-500 hover:text-red-600 p-1" title="Delete" onclick="return confirm('Delete this file?')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            @empty
+                                <p class="text-sm text-gray-500 text-center py-4">No attachments yet.</p>
+                            @endforelse
+                        </div>
+                    </div>
+                    <!-- Activity History -->
+                    <div class="bg-white rounded-lg shadow-sm p-6 mt-6">
+                        <h3 class="font-bold text-gray-900 mb-4">Activity History</h3>
+                        <div class="space-y-4">
+                            @forelse ($task->activities as $activity)
+                                <div class="text-sm">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 font-medium text-xs">
+                                            {{ substr($activity->user->name ?? 'S', 0, 1) }}
+                                        </div>
+                                        <span class="font-medium text-gray-900">{{ $activity->user->name ?? 'System' }}</span>
+                                    </div>
+                                    <div class="ml-8 mt-1 text-gray-600 border-l-2 border-gray-200 pl-3">
+                                        @if($activity->description === 'created_task')
+                                            <p>Created the task</p>
+                                        @elseif($activity->description === 'updated_task')
+                                            <p>Updated task details</p>
+                                            @if($activity->new_values)
+                                                <ul class="list-disc ml-4 mt-1 text-xs text-gray-500">
+                                                    @foreach($activity->new_values as $key => $value)
+                                                        @if(!in_array($key, ['updated_at']))
+                                                            <li>Changed <strong>{{ $key }}</strong></li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
+                                            @endif
+                                        @endif
+                                        <p class="text-xs text-gray-400 mt-1">{{ $activity->created_at->diffForHumans() }}</p>
+                                    </div>
+                                </div>
+                            @empty
+                                <p class="text-sm text-gray-500 text-center">No recent activity.</p>
+                            @endforelse
                         </div>
                     </div>
                 </div>

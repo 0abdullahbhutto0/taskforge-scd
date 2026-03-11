@@ -21,13 +21,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Gate::define('elevate', function(User $user) : bool {
-        //     if($user->roles->first()->name==='Admin'){
-        //         return true;
-        //     }else{
-        //         return false;
-        //     }
-        // });
 
         // Gate::define('create', function(User $user) : bool {
         //     if($user->roles->first()->name==='Manager'){

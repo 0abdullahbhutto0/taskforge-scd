@@ -91,9 +91,9 @@
                                 <div class="text-sm text-gray-500">{{ $task->workspace->name ?? 'No workspace' }} • #{{ $task->id }}</div>
                             </div>
                             <div class="flex flex-col items-end gap-1">
-                                @if($task->priority === 'high' || $task->priority === 'critical')
+                                @if($task->priority->value === 'high' || $task->priority->value === 'critical')
                                     <span class="bg-red-100 text-red-700 px-2 py-1 rounded text-xs font-medium">High Priority</span>
-                                @elseif($task->priority === 'medium')
+                                @elseif($task->priority->value === 'medium')
                                     <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded text-xs font-medium">Medium</span>
                                 @else
                                     <span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-medium">Low</span>
@@ -163,7 +163,7 @@
                 
                 <div class="space-y-4">
                     @php
-                        $announcements = \App\Models\Announcement::with('creator')->latest()->take(5)->get();
+                        $announcements = \App\Models\Announcement::with('creator')->latest()->simplePaginate(3); // Pagination task
                     @endphp
                     @foreach($announcements as $announcement)
                     <div class="flex gap-3">
@@ -185,7 +185,7 @@
                         </div>
                     </div>
                     @endforeach
-                    
+                    {{ $announcements->links() }}
                     @if($announcements->isEmpty())
                         <p class="text-gray-500 text-center py-4">No announcements yet.</p>
                     @endif

@@ -7,9 +7,11 @@ use App\Models\User;
 use App\Models\ManagerEmployeeModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class WorkspaceController extends Controller
 {
+    use AuthorizesRequests;
     public function index()
     {
         $user = Auth::user();
@@ -31,23 +33,19 @@ class WorkspaceController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Workspace::class);
         $user = Auth::user();
-        if($user->hasRole() !== 'Manager') {
-            abort(403, 'Unauthorized action.');
-        }
+
         $teamManager = ManagerEmployeeModel::where('manager_id', $user->id)->pluck('employee_id')->toArray();
         $employees = User::whereIn('id', $teamManager)->get();
         
         return view('workspaces.create', ['employees' => $employees]);
     }
 
-    public function store(Request $request)
+    public function store(\App\Http\Requests\StoreWorkspaceRequest $request)
     {
-        $attributes = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-            'members' => ['nullable', 'array'],
-        ]);
+        $this->authorize('create', Workspace::class);
+        $attributes = $request->validated();
 
         $workspace = Workspace::create([
             'name' => $attributes['name'],
@@ -65,6 +63,7 @@ class WorkspaceController extends Controller
     public function show($id)
     {
         $workspace = Workspace::with(['creator', 'users', 'tasks.assignedTo', 'tasks.creator'])->findOrFail($id);
+        $this->authorize('view', $workspace);
         return view('workspaces.show', ['workspace' => $workspace]);
     }
 
