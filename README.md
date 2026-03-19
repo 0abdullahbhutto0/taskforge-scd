@@ -1,24 +1,26 @@
 # TaskForge
 
-TaskForge is a powerful, intuitive, and highly scalable project and task management system engineered to streamline workflows across layered organizations. Built with **Laravel 12** and styled beautifully leveraging **Tailwind CSS 4** and **DaisyUI**, TaskForge connects teams effortlessly by unifying workspace organization, granular task assignments, targeted team announcements, and real-time activity tracking.
+TaskForge is a powerful, intuitive, and highly scalable project and task management system engineered to streamline workflows across layered organizations. Built with **Laravel 12** and styled beautifully leveraging **Tailwind CSS 4** and **DaisyUI**, TaskForge connects teams effortlessly by unifying workspace organization, granular task assignments, targeted team announcements, SaaS billing, and real-time activity tracking.
 
-## 🚀 Features
+## Features
 
-- **Role-Based Access Control (RBAC):** Three distinct operating roles (*Admin*, *Manager*, *Employee*) guaranteeing secure and scoped interfaces for everyone.
+- **Multi-Tenancy SaaS & Billing:** Integrated with Stripe via Laravel Cashier. Managers can upgrade their workspaces to Pro or Pro Plus tiers to unlock unlimited workspaces and employee limits natively.
+- **Role-Based Access Control (RBAC):** Three distinct operating roles (Admin, Manager, Employee) guaranteeing secure and scoped interfaces for everyone.
 - **Dynamic Workspace Management:** Managers can create and track detailed workspaces, managing the team members involved within projects efficiently.
 - **Robust Task Management:** Fully-fledged task lifecycle tools including priority setting, status timelines, constraints, and granular due dates.
 - **Rich Collaboration Elements:** Internal task commenting systems and drag-and-drop secure file attachment handling built-in natively. 
-- **Activity Tracking (Observers):** Built-in Laravel Observers automatically log historical progress footprints, so you know exactly *who* did *what* and *when*.
+- **Activity Tracking (Observers):** Built-in Laravel Observers automatically log historical progress footprints, so you know exactly who did what and when.
 - **Hub Announcements:** Multi-tiered communication boards restricted by visibility rules allowing global network "Public Announcements" versus targeted localized "Team Announcements."
 - **Dashboard Analytics:** Visual indicators tracking pending workloads, upcoming due dates, and progressive workspace pipeline metrics at a glance.
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 **Backend:**
 - [PHP 8.2+](https://php.net/)
 - [Laravel Framework 12.x](https://laravel.com/)
+- [Laravel Cashier (Stripe)](https://laravel.com/docs/billing)
 
 **Frontend:**
 - [Tailwind CSS 4.x](https://tailwindcss.com/)
@@ -32,17 +34,18 @@ TaskForge is a powerful, intuitive, and highly scalable project and task managem
 
 ---
 
-## ⚙️ Prerequisites
+## Prerequisites
 
 Before you begin, ensure you have met the following requirements:
 * PHP >= 8.2 installed on your local environment.
 * [Composer](https://getcomposer.org/) globally installed.
 * [Node.js](https://nodejs.org/) and NPM.
 * A relational Database setup (MySQL, PostgreSQL, or SQLite).
+* Standard Stripe SDK Keys (for billing webhooks and checkout sessions).
 
 ---
 
-## 💻 Installation & Setup
+## Installation & Setup
 
 1. **Clone the repository:**
    ```bash
@@ -61,7 +64,7 @@ Before you begin, ensure you have met the following requirements:
    ```
 
 4. **Environment Configuration:**
-   Create a local configuration copy and enter your local database credentials into the newly formed `.env` file.
+   Create a local configuration copy and enter your local database and Stripe API credentials into the newly formed `.env` file.
    ```bash
    cp .env.example .env
    ```
@@ -77,7 +80,7 @@ Before you begin, ensure you have met the following requirements:
    php artisan migrate --seed
    ```
 
-7. **Link Storage (Required for File Attachments):**
+7. **Link Storage (Required for File Attachments & Avatars):**
    ```bash
    php artisan storage:link
    ```
@@ -90,17 +93,20 @@ Before you begin, ensure you have met the following requirements:
 
    *Navigate to `http://127.0.0.1:8000` to access the application.*
 
+   **Note on Webhooks:** For Stripe checkouts to sync subscription changes locally during development, you must run the Stripe CLI forwarder: 
+   `stripe listen --forward-to localhost:8000/stripe/webhook`
+
 ---
 
-## 👥 Roles & Usage
+## Roles & Usage
 
 *   **Administrators:** The command center. Admins can moderate new user registrations (Approve/Reject), dictate global application roles securely via the **User Management** hub, monitor workspaces overridingly, and broadcast global 'Public Announcements'.
-*   **Managers:** Project coordinators who create dedicated workspaces, funnel tasks to their specific team subset, and have authorization to deploy 'Team Announcements' geared securely toward members inside their supervision scope.
+*   **Managers:** Project coordinators (Tenant Owners) who create dedicated workspaces, funnel tasks to their specific team subset, and have authorization to deploy 'Team Announcements' geared securely toward members inside their supervision scope. Managers also manage their Stripe Billing Subscriptions enabling higher capacity limits.
 *   **Employees:** Task assignees executing the deliverables. They're locked natively restricting access strictly to view relevant metrics, act exclusively on tasks directly assigned, log internal progress checks, add supportive comments, and consume only permitted network announcements. 
 
 ---
 
-## 🔒 License
+## License
 
 This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
 
