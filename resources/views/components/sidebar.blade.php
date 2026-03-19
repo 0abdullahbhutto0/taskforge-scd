@@ -41,7 +41,7 @@
                                     @endif
                                 </div>
                             </label>
-                            <div tabindex="0" class="mt-3 z-[1] card card-compact dropdown-content w-80 bg-base-100 shadow">
+                            <div tabindex="0" class="mt-3 z-[50] card card-compact dropdown-content w-80 bg-base-100 shadow">
                                 <div class="card-body p-0">
                                     <h3 class="font-bold text-lg p-4 border-b">Notifications</h3>
                                     <div class="max-h-96 overflow-y-auto">

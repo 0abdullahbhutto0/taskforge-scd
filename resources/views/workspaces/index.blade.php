@@ -33,7 +33,16 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                             </svg>
                         </div>
-                        <a href="/workspaces/{{ $workspace->id }}" class="text-blue-600 hover:text-blue-700 text-sm font-medium">View</a>
+                        <div class="flex gap-3">
+                            <a href="/workspaces/{{ $workspace->id }}" class="text-blue-600 hover:text-blue-700 text-sm font-medium">View</a>
+                            @if(auth()->user()->hasRole() === 'Admin' || (auth()->user()->hasRole() === 'Manager' && $workspace->created_by === auth()->id()))
+                            <form action="/workspaces/{{ $workspace->id }}" method="POST" class="inline" onsubmit="return confirm('Delete this workspace?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-medium">Delete</button>
+                            </form>
+                            @endif
+                        </div>
                     </div>
                     <a href="/workspaces/{{ $workspace->id }}" class="font-bold text-gray-900 hover:text-blue-600 mb-2 block">{{ $workspace->name }}</a>
                     <p class="text-sm text-gray-600 mb-4">{{ $workspace->description ?? 'No description' }}</p>

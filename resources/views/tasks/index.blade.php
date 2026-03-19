@@ -23,7 +23,7 @@
                 <form action="/tasks" method="GET" class="w-full flex flex-col sm:flex-row gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                        <select name="status" class="border-gray-300 rounded-md shadow-sm text-sm border p-2">
+                        <select name="status" class="bg-white text-black border-gray-300 rounded-md shadow-sm text-sm border p-2">
                             <option value="">All Statuses</option>
                             <option value="todo" {{ request('status') === 'todo' ? 'selected' : '' }}>To Do</option>
                             <option value="in_progress" {{ request('status') === 'in_progress' ? 'selected' : '' }}>In Progress</option>
@@ -34,7 +34,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
-                        <select name="priority" class="border-gray-300 rounded-md shadow-sm text-sm border p-2">
+                        <select name="priority" class="bg-white text-black border-gray-300 rounded-md shadow-sm text-sm border p-2">
                             <option value="">All Priorities</option>
                             <option value="low" {{ request('priority') === 'low' ? 'selected' : '' }}>Low</option>
                             <option value="medium" {{ request('priority') === 'medium' ? 'selected' : '' }}>Medium</option>
@@ -44,7 +44,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Sort By</label>
-                        <select name="sort" class="border-gray-300 rounded-md shadow-sm text-sm border p-2">
+                        <select name="sort" class="bg-white text-black border-gray-300 rounded-md shadow-sm text-sm border p-2">
                             <option value="latest" {{ request('sort') !== 'due_date' ? 'selected' : '' }}>Latest Created</option>
                             <option value="due_date" {{ request('sort') === 'due_date' ? 'selected' : '' }}>Due Date</option>
                         </select>
@@ -67,6 +67,7 @@
                                 <th class="text-left py-3 px-4 text-sm font-medium text-gray-700">Status</th>
                                 <th class="text-left py-3 px-4 text-sm font-medium text-gray-700">Priority</th>
                                 <th class="text-left py-3 px-4 text-sm font-medium text-gray-700">Due Date</th>
+                                <th class="text-left py-3 px-4 text-sm font-medium text-gray-700">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -90,7 +91,7 @@
                                 <td class="py-3 px-4">
                                     <form action="/tasks/{{ $task->id }}/status" method="POST" class="inline">
                                         @csrf
-                                        <select name="status" onchange="this.form.submit()" class="text-xs border rounded px-2 py-1 text-black">
+                                        <select name="status" onchange="this.form.submit()" class="text-xs border rounded bg-white text-black px-2 py-1">
                                             <option value="todo" {{ $task->status->value === 'todo' ? 'selected' : '' }}>To Do</option>
                                             <option value="in_progress" {{ $task->status->value === 'in_progress' ? 'selected' : '' }}>In Progress</option>
                                             <option value="review" {{ $task->status->value === 'review' ? 'selected' : '' }}>Review</option>
@@ -110,6 +111,15 @@
                                 </td>
                                 <td class="py-3 px-4 text-sm text-gray-600">
                                     {{ $task->due_date ? $task->due_date->format('M d, Y') : 'No due date' }}
+                                </td>
+                                <td class="py-3 px-4">
+                                    @if(auth()->user()->hasRole() === 'Admin' || (auth()->user()->hasRole() === 'Manager' && $task->created_by === auth()->id()))
+                                    <form action="/tasks/{{ $task->id }}" method="POST" class="inline" onsubmit="return confirm('Delete this task?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:text-red-800 text-sm font-medium">Delete</button>
+                                    </form>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach

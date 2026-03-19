@@ -163,4 +163,13 @@ class TaskController extends Controller
 
         return redirect()->back()->with('success', 'Attachment uploaded successfully');
     }
+
+    public function destroy($id)
+    {
+        $task = Task::findOrFail($id);
+        $this->authorize('delete', $task);
+        $task->delete();
+        
+        return redirect('/tasks')->with('success', 'Task deleted successfully');
+    }
 }

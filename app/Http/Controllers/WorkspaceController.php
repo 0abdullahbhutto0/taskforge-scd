@@ -67,4 +67,13 @@ class WorkspaceController extends Controller
         return view('workspaces.show', ['workspace' => $workspace]);
     }
 
+    public function destroy($id)
+    {
+        $workspace = Workspace::findOrFail($id);
+        $this->authorize('delete', $workspace);
+        $workspace->delete();
+        
+        return redirect('/workspaces')->with('success', 'Workspace deleted successfully');
+    }
+
 }

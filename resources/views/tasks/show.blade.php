@@ -33,7 +33,7 @@
                                         <form action="/tasks/{{ $task->id }}/status" method="POST" class="mt-1">
                                             @csrf
                                             <select name="status" onchange="this.form.submit()"
-                                                class="text-sm border rounded px-3 py-2 w-full text-black">
+                                                class="text-sm border rounded px-3 py-2 w-full text-black bg-white">
                                                 <option value="todo" {{ $task->status->value === 'todo' ? 'selected' : '' }}>
                                                     To Do</option>
                                                 <option value="in_progress"

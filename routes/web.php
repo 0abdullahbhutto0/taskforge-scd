@@ -57,6 +57,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/workspaces/create', [WorkspaceController::class, 'create']);
     Route::post('/workspaces', [WorkspaceController::class, 'store']);
     Route::get('/workspaces/{id}', [WorkspaceController::class, 'show']);
+    Route::delete('/workspaces/{id}', [WorkspaceController::class, 'destroy']);
 });
 
 // Task Routes
@@ -65,6 +66,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tasks/create', [TaskController::class, 'create']);
     Route::post('/tasks', [TaskController::class, 'store']);
     Route::get('/tasks/{id}', [TaskController::class, 'show']);
+    Route::delete('/tasks/{id}', [TaskController::class, 'destroy']);
     Route::post('/tasks/{id}/status', [TaskController::class, 'updateStatus']);
     Route::post('/tasks/{id}/comments', [\App\Http\Controllers\TaskController::class, 'storeComment']);
     Route::post('/tasks/{id}/attachments', [\App\Http\Controllers\TaskController::class, 'storeAttachment']);

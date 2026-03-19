@@ -56,18 +56,15 @@
                                 <td class="py-3 px-4">
                                     @if($user->status === 'pending')
                                         <div class="flex gap-2">
-                                            <form action="/admin/users/{{ $user->id }}/approve" method="POST" class="inline">
+                                            <form action="/admin/users/{{ $user->id }}/assign-role" method="POST" class="inline flex gap-2">
                                                 @csrf
-                                                <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">Approve</button>
-                                            </form>
-                                            <form action="/admin/users/{{ $user->id }}/assign-role" method="POST" class="inline">
-                                                @csrf
-                                                <select name="role" onchange="this.form.submit()" class="border rounded px-2 py-1 text-sm text-black">
-                                                    <option value="" class="text-black">Assign Role</option>
+                                                <select name="role" required class="border rounded px-2 py-1 text-sm text-black bg-white">
+                                                    <option value="" disabled selected>Assign Role to Approve</option>
                                                     <option value="Admin">Admin</option>
                                                     <option value="Manager">Manager</option>
                                                     <option value="Employee">Employee</option>
                                                 </select>
+                                                <button type="submit" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700">Approve</button>
                                             </form>
                                             <form action="/admin/users/{{ $user->id }}/reject" method="POST" class="inline">
                                                 @csrf
@@ -77,8 +74,8 @@
                                     @else
                                         <form action="/admin/users/{{ $user->id }}/assign-role" method="POST" class="inline">
                                             @csrf
-                                            <select name="role" onchange="this.form.submit()" class="border rounded px-2 py-1 text-sm text-black">
-                                                <option value="{{ $user->roles->first()->name ?? '' }}">{{ $user->roles->first()->name ?? 'Unassigned' }}</option>
+                                            <select name="role" onchange="this.form.submit()" class="border rounded px-2 py-1 text-sm text-black bg-white">
+                                                <option value="{{ $user->roles->first()->name ?? '' }}" hidden>{{ $user->roles->first()->name ?? 'Unassigned' }}</option>
                                                 <option value="Admin">Admin</option>
                                                 <option value="Manager">Manager</option>
                                                 <option value="Employee">Employee</option>
