@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Task;
 use App\Models\Workspace;
 use App\Models\ManagerEmployeeModel;
+use App\Models\Announcement;
+use App\Models\User;
 
 class EmployeeController extends Controller
 {
@@ -17,9 +19,17 @@ class EmployeeController extends Controller
         if($user->hasRole() !== 'Employee') {
             abort(403, 'Unauthorized action.');
         }
+
+        $managerIds = ManagerEmployeeModel::where('employee_id', $user->id)->pluck('manager_id')->toArray();
+        $adminIds = User::whereHas('roles', function($q) { $q->where('name', 'Admin'); })->pluck('id')->toArray();
+        
+        $allowedIds = array_unique(array_merge($managerIds, $adminIds));
+        
+        $announcements = Announcement::whereIn('created_by', $allowedIds)->with('creator')->latest()->simplePaginate(3);
         
         return view('employee.dashboard', [
             'user' => $user,
+            'announcements' => $announcements,
         ]);
     }
 

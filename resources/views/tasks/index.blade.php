@@ -67,7 +67,9 @@
                                 <th class="text-left py-3 px-4 text-sm font-medium text-gray-700">Status</th>
                                 <th class="text-left py-3 px-4 text-sm font-medium text-gray-700">Priority</th>
                                 <th class="text-left py-3 px-4 text-sm font-medium text-gray-700">Due Date</th>
+                                @if(auth()->user()->hasRole() === 'Admin' || auth()->user()->hasRole() === 'Manager')
                                 <th class="text-left py-3 px-4 text-sm font-medium text-gray-700">Actions</th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -112,6 +114,7 @@
                                 <td class="py-3 px-4 text-sm text-gray-600">
                                     {{ $task->due_date ? $task->due_date->format('M d, Y') : 'No due date' }}
                                 </td>
+                                @if(auth()->user()->hasRole() === 'Admin' || auth()->user()->hasRole() === 'Manager')
                                 <td class="py-3 px-4">
                                     @if(auth()->user()->hasRole() === 'Admin' || (auth()->user()->hasRole() === 'Manager' && $task->created_by === auth()->id()))
                                     <form action="/tasks/{{ $task->id }}" method="POST" class="inline" onsubmit="return confirm('Delete this task?');">
@@ -121,6 +124,7 @@
                                     </form>
                                     @endif
                                 </td>
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>

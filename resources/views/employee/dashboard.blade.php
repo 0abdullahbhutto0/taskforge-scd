@@ -162,9 +162,6 @@
                 <h2 class="text-xl font-bold text-gray-900 mb-4">Announcements</h2>
                 
                 <div class="space-y-4">
-                    @php
-                        $announcements = \App\Models\Announcement::with('creator')->latest()->simplePaginate(3); // Pagination task
-                    @endphp
                     @foreach($announcements as $announcement)
                     <div class="flex gap-3">
                         <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
