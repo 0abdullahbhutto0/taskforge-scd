@@ -1,59 +1,109 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# TaskForge
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+TaskForge is a powerful, intuitive, and highly scalable project and task management system engineered to streamline workflows across layered organizations. Built with **Laravel 12** and styled beautifully leveraging **Tailwind CSS 4** and **DaisyUI**, TaskForge connects teams effortlessly by unifying workspace organization, granular task assignments, targeted team announcements, and real-time activity tracking.
 
-## About Laravel
+## 🚀 Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Role-Based Access Control (RBAC):** Three distinct operating roles (*Admin*, *Manager*, *Employee*) guaranteeing secure and scoped interfaces for everyone.
+- **Dynamic Workspace Management:** Managers can create and track detailed workspaces, managing the team members involved within projects efficiently.
+- **Robust Task Management:** Fully-fledged task lifecycle tools including priority setting, status timelines, constraints, and granular due dates.
+- **Rich Collaboration Elements:** Internal task commenting systems and drag-and-drop secure file attachment handling built-in natively. 
+- **Activity Tracking (Observers):** Built-in Laravel Observers automatically log historical progress footprints, so you know exactly *who* did *what* and *when*.
+- **Hub Announcements:** Multi-tiered communication boards restricted by visibility rules allowing global network "Public Announcements" versus targeted localized "Team Announcements."
+- **Dashboard Analytics:** Visual indicators tracking pending workloads, upcoming due dates, and progressive workspace pipeline metrics at a glance.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🛠️ Technology Stack
 
-## Learning Laravel
+**Backend:**
+- [PHP 8.2+](https://php.net/)
+- [Laravel Framework 12.x](https://laravel.com/)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+**Frontend:**
+- [Tailwind CSS 4.x](https://tailwindcss.com/)
+- [DaisyUI 5.x](https://daisyui.com/) (Component Library)
+- [Vite 7.x](https://vitejs.dev/) (Build Tool)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Architecture Details:**
+- Authentication bootstrapped securely.
+- Eloquent ORM interacting with MySQL/SQLite configurations gracefully out-of-the-box.
+- Modern flex and strictly `z-index` scoped responsive view panels relying on modular Blade components.
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## ⚙️ Prerequisites
 
-### Premium Partners
+Before you begin, ensure you have met the following requirements:
+* PHP >= 8.2 installed on your local environment.
+* [Composer](https://getcomposer.org/) globally installed.
+* [Node.js](https://nodejs.org/) and NPM.
+* A relational Database setup (MySQL, PostgreSQL, or SQLite).
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 💻 Installation & Setup
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/0abdullahbhutto0/taskforge-scd.git
+   cd taskforge
+   ```
 
-## Code of Conduct
+2. **Install PHP dependencies:**
+   ```bash
+   composer install
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+3. **Install NPM dependencies:**
+   ```bash
+   npm install
+   ```
 
-## Security Vulnerabilities
+4. **Environment Configuration:**
+   Create a local configuration copy and enter your local database credentials into the newly formed `.env` file.
+   ```bash
+   cp .env.example .env
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5. **Generate Application Key:**
+   ```bash
+   php artisan key:generate
+   ```
 
-## License
+6. **Migrate and Seed Database:**
+   Push the schema to your engine and populate it utilizing the provided Seeders (i.e., `AdminUserSeeder`).
+   ```bash
+   php artisan migrate --seed
+   ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+7. **Link Storage (Required for File Attachments):**
+   ```bash
+   php artisan storage:link
+   ```
+
+8. **Spin up the Local Server:**
+   TaskForge conveniently provides a built-in concurrent script. Run this command to handle serving Laravel, processing background queues, and hot-reloading Vite frontend assets simultaneously:
+   ```bash
+   composer run dev
+   ```
+
+   *Navigate to `http://127.0.0.1:8000` to access the application.*
+
+---
+
+## 👥 Roles & Usage
+
+*   **Administrators:** The command center. Admins can moderate new user registrations (Approve/Reject), dictate global application roles securely via the **User Management** hub, monitor workspaces overridingly, and broadcast global 'Public Announcements'.
+*   **Managers:** Project coordinators who create dedicated workspaces, funnel tasks to their specific team subset, and have authorization to deploy 'Team Announcements' geared securely toward members inside their supervision scope.
+*   **Employees:** Task assignees executing the deliverables. They're locked natively restricting access strictly to view relevant metrics, act exclusively on tasks directly assigned, log internal progress checks, add supportive comments, and consume only permitted network announcements. 
+
+---
+
+## 🔒 License
+
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+
+---
+
+> **Note:** TaskForge natively limits data leaks enforcing severe route and query-level policy validations guaranteeing absolute data integrity across varying horizontal and vertical privilege structures.
