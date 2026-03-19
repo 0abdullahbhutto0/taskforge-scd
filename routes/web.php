@@ -25,6 +25,28 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 
 Route::get('/dashboard', [DashboardController::class, 'create'])->middleware('auth');
 
+// Subscription & Billing Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/billing', function (\Illuminate\Http\Request $request) {
+        if (!$request->user()->hasStripeId()) {
+            $request->user()->createAsStripeCustomer();
+        }
+        return $request->user()->redirectToBillingPortal(url('/manager/dashboard'));
+    });
+
+    Route::get('/subscribe/{plan}', function (\Illuminate\Http\Request $request, $plan) {
+        $priceId = $plan === 'pro_plus' ? env('STRIPE_PRO_PLUS_PRICE_ID', 'price_dummy_pro_plus') : env('STRIPE_PRO_PRICE_ID', 'price_dummy_pro');
+        try {
+            return $request->user()->newSubscription($plan, $priceId)->checkout([
+                'success_url' => url('/manager/dashboard?session_id={CHECKOUT_SESSION_ID}'),
+                'cancel_url' => url('/manager/dashboard'),
+            ]);
+        } catch (\Exception $e) {
+            return redirect('/manager/dashboard')->with('error', 'Unable to reach Stripe checkout: ' . $e->getMessage());
+        }
+    });
+});
+
 // Admin Routes
 Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/dashboard', [AdminController::class, 'dashboard']);
