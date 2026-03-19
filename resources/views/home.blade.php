@@ -475,7 +475,7 @@
                             <span class="text-gray-600">Basic Task Management</span>
                         </li>
                     </ul>
-                    <a href="/register" class="w-full text-center bg-blue-50 text-blue-600 font-semibold py-3 rounded-xl hover:bg-blue-100 transition whitespace-nowrap">Get Started</a>
+                    <a href="/register?plan=free" class="w-full text-center bg-blue-50 text-blue-600 font-semibold py-3 rounded-xl hover:bg-blue-100 transition whitespace-nowrap">Get Started</a>
                 </div>
 
                 <!-- Pro Plan -->
@@ -505,7 +505,7 @@
                             <span class="text-white">Priority Support</span>
                         </li>
                     </ul>
-                    <a href="/register" class="w-full text-center bg-white text-blue-600 font-semibold py-3 rounded-xl hover:bg-gray-50 transition whitespace-nowrap">Start 14-Day Free Trial</a>
+                    <a href="/register?plan=pro" class="w-full text-center bg-white text-blue-600 font-semibold py-3 rounded-xl hover:bg-gray-50 transition whitespace-nowrap">Start 14-Day Free Trial</a>
                 </div>
 
                 <!-- Pro Plus Plan -->
@@ -534,7 +534,7 @@
                             <span class="text-gray-600">24/7 Dedicated Support Phone Line</span>
                         </li>
                     </ul>
-                    <a href="/register" class="w-full text-center bg-gray-900 text-white font-semibold py-3 rounded-xl hover:bg-gray-800 transition whitespace-nowrap">Contact Sales</a>
+                    <a href="/register?plan=pro_plus" class="w-full text-center bg-gray-900 text-white font-semibold py-3 rounded-xl hover:bg-gray-800 transition whitespace-nowrap">Contact Sales</a>
                 </div>
             </div>
         </div>

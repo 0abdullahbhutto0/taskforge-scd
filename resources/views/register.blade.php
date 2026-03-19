@@ -10,6 +10,15 @@
         <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
             <form action="/register" method="POST" class="space-y-6">
                 @csrf
+                <input type="hidden" name="plan" value="{{ request('plan', 'free') }}">
+                
+                <div class="mb-6">
+                   <p class="block text-sm/6 font-medium text-gray-900 mb-1">Selected Plan</p>
+                   <div class="px-3 py-2 bg-blue-50 border border-blue-200 rounded-md text-blue-800 font-semibold uppercase tracking-wider text-sm">
+                       {{ str_replace('_', ' ', request('plan', 'free')) }} TIER
+                   </div>
+                </div>
+
                 <div>
                     <label for="name" class="block text-sm/6 font-medium text-gray-900">Full Name</label>
                     <div class="mt-2">
