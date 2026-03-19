@@ -5,6 +5,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ManagerController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TaskController;
@@ -24,6 +25,31 @@ Route::get('/register', [RegisteredUserController::class, 'create']);
 Route::post('/register', [RegisteredUserController::class, 'store']);
 
 Route::get('/dashboard', [DashboardController::class, 'create'])->middleware('auth');
+
+// Subscription & Billing Routes
+Route::middleware('auth')->group(function () {
+    Route::get('/billing', function (\Illuminate\Http\Request $request) {
+        if (!$request->user()->hasStripeId()) {
+            $request->user()->createAsStripeCustomer();
+        }
+        return $request->user()->redirectToBillingPortal(url('/manager/dashboard'));
+    });
+
+    Route::get('/subscribe/{plan}', function (\Illuminate\Http\Request $request, $plan) {
+        $priceId = $plan === 'pro_plus' ? env('STRIPE_PRO_PLUS_PRICE_ID', 'price_dummy_pro_plus') : env('STRIPE_PRO_PRICE_ID', 'price_dummy_pro');
+        try {
+            return $request->user()->newSubscription($plan, $priceId)->checkout([
+                'success_url' => url('/manager/dashboard?session_id={CHECKOUT_SESSION_ID}'),
+                'cancel_url' => url('/manager/dashboard'),
+            ]);
+        } catch (\Exception $e) {
+            return redirect('/manager/dashboard')->with('error', 'Unable to reach Stripe checkout: ' . $e->getMessage());
+        }
+    });
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::post('/profile', [ProfileController::class, 'update']);
+});
 
 // Admin Routes
 Route::middleware('auth')->prefix('admin')->group(function () {

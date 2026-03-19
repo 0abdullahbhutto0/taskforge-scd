@@ -187,17 +187,21 @@
                 </ul>
                 
                 @auth
-                <div class="p-4 border-t border-gray-200">
+                <a href="/profile" class="p-4 border-t border-gray-200 block hover:bg-gray-50 transition w-full">
                     <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-medium text-sm">
-                            {{ substr(auth()->user()->name, 0, 1) }}
+                        <div class="w-8 h-8 rounded-full overflow-hidden bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm shrink-0 border border-blue-200">
+                            @if(auth()->user()->avatar)
+                                <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="Avatar" class="w-full h-full object-cover">
+                            @else
+                                {{ substr(auth()->user()->name, 0, 1) }}
+                            @endif
                         </div>
-                        <div class="flex-1 is-drawer-close:hidden">
-                            <div class="font-medium text-gray-900 text-sm">{{ auth()->user()->name }}</div>
+                        <div class="flex-1 overflow-hidden is-drawer-close:hidden">
+                            <div class="font-medium text-gray-900 text-sm truncate">{{ auth()->user()->name }}</div>
                             <div class="text-xs text-gray-600">{{ auth()->user()->hasRole() }}</div>
                         </div>
                     </div>
-                </div>
+                </a>
                 @endauth
             </div>
         </div>

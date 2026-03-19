@@ -45,6 +45,16 @@ class WorkspaceController extends Controller
     public function store(\App\Http\Requests\StoreWorkspaceRequest $request)
     {
         $this->authorize('create', Workspace::class);
+        $user = Auth::user();
+
+        // Check Multi-Tenancy Subscription Limits
+        if ($user->hasRole() === 'Manager') {
+            $isPaid = $user->subscribed('pro') || $user->subscribed('pro_plus');
+            if (!$isPaid && $user->createdWorkspaces()->count() >= 1) {
+                return redirect('/workspaces')->with('error', 'Free tier is limited to 1 Workspace. Upgrade your plan to create unlimited workspaces.');
+            }
+        }
+
         $attributes = $request->validated();
 
         $workspace = Workspace::create([

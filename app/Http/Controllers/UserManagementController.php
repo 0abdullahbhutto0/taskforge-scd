@@ -56,6 +56,21 @@ class UserManagementController extends Controller
 
     public function createEmployee(Request $request)
     {
+        $user = Auth::user();
+
+        // Check Multi-Tenancy Subscription Limits
+        if ($user->hasRole() === 'Manager') {
+            $isPaid = $user->subscribed('pro') || $user->subscribed('pro_plus');
+            $employeeCount = ManagerEmployeeModel::where('manager_id', $user->id)->count();
+            
+            if (!$isPaid && $employeeCount >= 5) {
+                return redirect()->back()->with('error', 'Free tier is limited to 5 employees. Upgrade your plan to invite more.');
+            }
+            if ($user->subscribed('pro') && $employeeCount >= 50) {
+                return redirect()->back()->with('error', 'Pro tier is limited to 50 employees. Upgrade to Pro Plus to invite unlimited.');
+            }
+        }
+
         $attributes = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
