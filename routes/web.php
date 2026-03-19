@@ -5,6 +5,7 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ManagerController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\TaskController;
@@ -45,6 +46,9 @@ Route::middleware('auth')->group(function () {
             return redirect('/manager/dashboard')->with('error', 'Unable to reach Stripe checkout: ' . $e->getMessage());
         }
     });
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::post('/profile', [ProfileController::class, 'update']);
 });
 
 // Admin Routes
