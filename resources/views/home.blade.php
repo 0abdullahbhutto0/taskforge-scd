@@ -441,7 +441,104 @@
             </div>
         </div>
     </section>
-    </main>
+    <!-- Pricing Section -->
+    <section id="pricing" class="bg-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <p class="text-blue-600 font-semibold mb-3">Pricing</p>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">Plans for every team size</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Whether you're just starting out or managing multiple enterprise workspaces, we have a multi-tenant plan that scales with you.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Free Plan -->
+                <div class="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm flex flex-col">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Free</h3>
+                    <p class="text-gray-500 mb-6">Perfect for small isolated teams.</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-extrabold text-gray-900">$0</span>
+                        <span class="text-gray-500">/mo</span>
+                    </div>
+                    <ul class="space-y-4 mb-8 flex-1">
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-gray-600">Up to 5 Users</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-gray-600">1 Workspace (Single Tenant)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-gray-600">Basic Task Management</span>
+                        </li>
+                    </ul>
+                    <a href="/register" class="w-full text-center bg-blue-50 text-blue-600 font-semibold py-3 rounded-xl hover:bg-blue-100 transition whitespace-nowrap">Get Started</a>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="bg-blue-600 rounded-2xl p-8 border border-blue-600 shadow-xl relative flex flex-col transform hover:-translate-y-1 transition duration-300">
+                    <div class="absolute top-0 right-0 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-xl uppercase tracking-wider">Most Popular</div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Pro</h3>
+                    <p class="text-blue-100 mb-6">For growing organizations.</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-extrabold text-white">$29</span>
+                        <span class="text-blue-100">/mo</span>
+                    </div>
+                    <ul class="space-y-4 mb-8 flex-1">
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-blue-200 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-white">Up to 50 Users</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-blue-200 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-white">Unlimited Workspaces (Multi-Tenant)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-blue-200 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-white">Role-Based Announcements</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-blue-200 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-white">Priority Support</span>
+                        </li>
+                    </ul>
+                    <a href="/register" class="w-full text-center bg-white text-blue-600 font-semibold py-3 rounded-xl hover:bg-gray-50 transition whitespace-nowrap">Start 14-Day Free Trial</a>
+                </div>
+
+                <!-- Pro Plus Plan -->
+                <div class="bg-gray-50 rounded-2xl p-8 border border-gray-200 shadow-sm flex flex-col">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Pro Plus</h3>
+                    <p class="text-gray-500 mb-6">For large-scale operations.</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-extrabold text-gray-900">$99</span>
+                        <span class="text-gray-500">/mo</span>
+                    </div>
+                    <ul class="space-y-4 mb-8 flex-1">
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-gray-600">Unlimited Users</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-gray-600">Advanced Cross-Tenant Reporting</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-gray-600">Custom Domain & SSO</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span class="text-gray-600">24/7 Dedicated Support Phone Line</span>
+                        </li>
+                    </ul>
+                    <a href="/register" class="w-full text-center bg-gray-900 text-white font-semibold py-3 rounded-xl hover:bg-gray-800 transition whitespace-nowrap">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="w-full bg-[#0F172A] py-20 px-4 sm:px-6 lg:px-8">
         <div class="max-w-full mx-auto text-center">
             <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">
